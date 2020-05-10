@@ -9,6 +9,7 @@
         width: 100%;
         max-width: 70%;
     }
+
     .notification-container {
         position: absolute;
         top: 60px;
@@ -17,12 +18,15 @@
         width: 450px;
     }
 </style>
+
+
 @if (!IsWindowVisible)
 {
+    <LoginLinks></LoginLinks>
     <div class="alert alert-warning">
         <p>
-            You closed the TelerikWindow component. There's so many good links in that window, 
-            if you would like to see it again click here 
+            You closed the TelerikWindow component. There's so many good links in that window,
+            if you would like to see it again click here
             <TelerikButton Class="k-primary" OnClick="@( _ => IsWindowVisible = true )">Show Window</TelerikButton>
         </p>
     </div>

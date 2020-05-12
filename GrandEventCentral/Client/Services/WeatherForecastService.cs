@@ -1,12 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Globalization;
-using System.Linq;
 using System.Net.Http;
-using System.Threading.Tasks;
-using GrandEventCentral.Shared;
-using Microsoft.AspNetCore.Components;
 using System.Net.Http.Json;
+using System.Threading.Tasks;
+using GrandEventCentral.Shared.ViewModels;
+using Microsoft.AspNetCore.Components;
 
 namespace GrandEventCentral.Services
 {

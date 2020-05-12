@@ -1,9 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Text;
 
-namespace GrandEventCentral.Server.Entities
+namespace GrandEventCentral.Shared.Entities
 {
     public class Event : Base
     {
@@ -31,7 +29,7 @@ namespace GrandEventCentral.Server.Entities
         /// <summary>
         /// E.g. Tallinn
         /// </summary>
-        public string City { get; set;}
+        public string City { get; set; }
         /// <summary>
         /// E.g. Harjumaa
         /// </summary>

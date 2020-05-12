@@ -1,8 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 
-namespace GrandEventCentral.Shared
+namespace GrandEventCentral.Shared.ViewModels
 {
     public class WeatherForecast
     {

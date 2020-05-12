@@ -1,9 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 using Microsoft.AspNetCore.Identity;
 
-namespace GrandEventCentral.Server.Entities
+namespace GrandEventCentral.Shared.Entities
 {
     public class Base
     {

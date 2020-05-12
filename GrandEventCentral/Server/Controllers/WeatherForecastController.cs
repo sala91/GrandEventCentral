@@ -1,8 +1,9 @@
-﻿using GrandEventCentral.Shared;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using GrandEventCentral.Shared;
+using GrandEventCentral.Shared.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 
@@ -70,7 +71,7 @@ namespace GrandEventCentral.Server.Controllers
                 return;
             }
 
-            WeatherForecast forecastToDelete = _forecasts.Where(f => f.Id == idToRemove).First();
+            var forecastToDelete = _forecasts.Where(f => f.Id == idToRemove).First();
             if (forecastToDelete != null)
             {
                 _forecasts.Remove(forecastToDelete);
@@ -86,7 +87,7 @@ namespace GrandEventCentral.Server.Controllers
                 return;
             }
 
-            WeatherForecast insertedForecast = new WeatherForecast()
+            var insertedForecast = new WeatherForecast()
             {
                 Id = _forecasts.Count + 1,
                 Date = forecastToInsert.Date,

@@ -1,11 +1,12 @@
-﻿using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
-using Microsoft.AspNetCore.Components.WebAssembly.Authentication;
-using Microsoft.Extensions.DependencyInjection;
-using GrandEventCentral.Services;
-using System.Threading.Tasks;
+﻿using System;
 using System.Net.Http;
-using System;
-using Microsoft.Extensions.Configuration;
+using System.Threading.Tasks;
+using Blazor.FileReader;
+using GrandEventCentral.Client.Helpers;
+using GrandEventCentral.Client.Repository;
+using GrandEventCentral.Services;
+using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace GrandEventCentral.Client
 {
@@ -16,14 +17,26 @@ namespace GrandEventCentral.Client
             var builder = WebAssemblyHostBuilder.CreateDefault(args);
             builder.RootComponents.Add<App>("app");
             builder.Services.AddTransient(sp => new HttpClient { BaseAddress = new Uri(builder.HostEnvironment.BaseAddress) });
-            builder.Services.AddScoped<WeatherForecastService>();
-            builder.Services.AddTelerikBlazor();
-            builder.Services.AddApiAuthorization();
-            builder.Services.AddOidcAuthentication(options =>
-            {
-                builder.Configuration.Bind("Local", options.ProviderOptions);
-            });
+            ConfigureServices(builder.Services);
+
             await builder.Build().RunAsync();
+        }
+
+        private static void ConfigureServices(IServiceCollection services)
+        {
+            services.AddOptions();
+            services.AddScoped<WeatherForecastService>();
+            services.AddScoped<IHttpService, HttpService>();
+            services.AddScoped<IAccountsRepository, AccountsRepository>();
+            services.AddScoped<IDisplayMessage, DisplayMessage>();
+            services.AddScoped<IUsersRepository, UserRepository>();
+            services.AddTransient<CustomHttpClientFactory>();
+
+            services.AddTelerikBlazor();
+
+            services.AddFileReaderService(options => options.InitializeOnFirstCall = true);
+
+            services.AddApiAuthorization();
         }
     }
 }

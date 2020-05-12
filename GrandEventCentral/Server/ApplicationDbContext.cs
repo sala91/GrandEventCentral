@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using GrandEventCentral.Server.Entities;
+﻿using GrandEventCentral.Shared.Entities;
 using IdentityServer4.EntityFramework.Options;
 using Microsoft.AspNetCore.ApiAuthorization.IdentityServer;
 using Microsoft.AspNetCore.Identity;
@@ -19,5 +15,6 @@ namespace GrandEventCentral.Server
         }
 
         public DbSet<Event> Events { get; set; }
+        public DbSet<Person> People { get; set; }
     }
 }

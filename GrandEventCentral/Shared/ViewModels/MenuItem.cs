@@ -1,8 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Collections.Generic;
 
-namespace GrandEventCentral.Shared
+namespace GrandEventCentral.Shared.ViewModels
 {
     public class MenuItem
     {

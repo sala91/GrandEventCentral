@@ -21,6 +21,10 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GrandEventCentral.Test", "G
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Microsoft.AspNetCore.Components.Testing", "GrandEventCentral\Microsoft.AspNetCore.Components.Testing\Microsoft.AspNetCore.Components.Testing.csproj", "{9699FA7D-6688-42E6-AC37-F022301CE5A0}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FacebookCore", "GrandEventCentral\FacebookCore\FacebookCore.csproj", "{7E3BAB2B-2922-443F-AED8-2E5C8775C2FC}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FacebookCore.Tests", "GrandEventCentral\FacebookCore.Tests\FacebookCore.Tests.csproj", "{F40613AF-659B-42F0-AC40-B8E4A740221B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -47,12 +51,22 @@ Global
 		{9699FA7D-6688-42E6-AC37-F022301CE5A0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9699FA7D-6688-42E6-AC37-F022301CE5A0}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9699FA7D-6688-42E6-AC37-F022301CE5A0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7E3BAB2B-2922-443F-AED8-2E5C8775C2FC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7E3BAB2B-2922-443F-AED8-2E5C8775C2FC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7E3BAB2B-2922-443F-AED8-2E5C8775C2FC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7E3BAB2B-2922-443F-AED8-2E5C8775C2FC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F40613AF-659B-42F0-AC40-B8E4A740221B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F40613AF-659B-42F0-AC40-B8E4A740221B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F40613AF-659B-42F0-AC40-B8E4A740221B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F40613AF-659B-42F0-AC40-B8E4A740221B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{9699FA7D-6688-42E6-AC37-F022301CE5A0} = {1CCC2B1C-9EE6-4125-86D5-EFF50548EC21}
+		{7E3BAB2B-2922-443F-AED8-2E5C8775C2FC} = {1CCC2B1C-9EE6-4125-86D5-EFF50548EC21}
+		{F40613AF-659B-42F0-AC40-B8E4A740221B} = {1CCC2B1C-9EE6-4125-86D5-EFF50548EC21}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {7C2B49A0-E919-4C47-ABEB-970B0529E797}

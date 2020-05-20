@@ -1,0 +1,15 @@
+﻿@page "/events/create"
+@inject HttpClient Http
+<h3>Create Event</h3>
+
+<EventForm Event="myPublicEvent" OnValidSubmit="SaveEvent"></EventForm>
+
+@code { 
+    private PublicEvent myPublicEvent = new PublicEvent();
+
+    private async Task SaveEvent()
+    {
+        var body = Newtonsoft.Json.JsonConvert.SerializeObject(myPublicEvent);
+        var eventId = await Http.PostAsync("Api/Events", new StringContent(body, System.Text.Encoding.UTF8, "application/json"));
+    } 
+}

@@ -1,9 +1,9 @@
-﻿using Microsoft.AspNetCore.Components.RenderTree;
-using Microsoft.Extensions.Logging;
-using System;
+﻿using System;
 using System.Diagnostics.CodeAnalysis;
 using System.Runtime.ExceptionServices;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Components.RenderTree;
+using Microsoft.Extensions.Logging;
 
 namespace Microsoft.AspNetCore.Components.Testing
 {
@@ -20,10 +20,14 @@ namespace Microsoft.AspNetCore.Components.Testing
         }
 
         public new ArrayRange<RenderTreeFrame> GetCurrentRenderTreeFrames(int componentId)
-            => base.GetCurrentRenderTreeFrames(componentId);
+        {
+            return base.GetCurrentRenderTreeFrames(componentId);
+        }
 
         public int AttachTestRootComponent(ContainerComponent testRootComponent)
-            => AssignRootComponentId(testRootComponent);
+        {
+            return AssignRootComponentId(testRootComponent);
+        }
 
         public new Task DispatchEventAsync(ulong eventHandlerId, EventFieldInfo fieldInfo, EventArgs eventArgs)
         {

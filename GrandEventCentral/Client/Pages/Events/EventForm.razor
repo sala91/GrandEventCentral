@@ -1,0 +1,135 @@
+﻿<h3>EventForm</h3>
+<EditForm Model="Event" OnValidSubmit="OnDataAnnotationsValidated">
+    <DataAnnotationsValidator />
+    <div class="form-group">
+        <label>Title:</label>
+        <div>
+            <InputText class="form-control" @bind-Value="@Event.Title" />
+            <ValidationMessage For="@(() => Event.Title)" />
+        </div>
+    </div>
+    <div class="form-group">
+        <label>Description:</label>
+        <div>
+            <InputText class="form-control" @bind-Value="@Event.Description" />
+            <ValidationMessage For="@(() => Event.Description)" />
+        </div>
+    </div>    
+    <div class="form-group">
+        <label>HostName:</label>
+        <div>
+            <InputText class="form-control" @bind-Value="@Event.HostName" />
+            <ValidationMessage For="@(() => Event.HostName)" />
+        </div>
+    </div>    
+    <div class="form-group">
+        <label>EventUrlFb:</label>
+        <div>
+            <InputText class="form-control" @bind-Value="@Event.EventUrlFb" />
+            <ValidationMessage For="@(() => Event.EventUrlFb)" />
+        </div>
+    </div>    
+    <div class="form-group">
+        <label>EventUrlShort:</label>
+        <div>
+            <InputText class="form-control" @bind-Value="@Event.EventUrlShort" />
+            <ValidationMessage For="@(() => Event.EventUrlShort)" />
+        </div>
+    </div>    
+    <div class="form-group">
+        <label>Date:</label>
+        <div>
+            <InputDate class="form-control" @bind-Value="@Event.Date" />
+            <ValidationMessage For="@(() => Event.Date)" />
+        </div>
+    </div>    
+    <div class="form-group">
+        <label>CreatedAt:</label>
+        <div>
+            <InputDate class="form-control" @bind-Value="@Event.CreatedAt" />
+            <ValidationMessage For="@(() => Event.CreatedAt)" />
+        </div>
+    </div>    
+    <div class="form-group">
+       <label>Country:</label>
+        <div>
+            <InputText class="form-control" @bind-Value="@Event.Country" />
+            <ValidationMessage For="@(() => Event.Country)" />
+        </div>
+    </div>    
+    <div class="form-group">
+        <label>City:</label>
+        <div>
+            <InputText class="form-control" @bind-Value="@Event.City" />
+            <ValidationMessage For="@(() => Event.City)" />
+        </div>
+    </div>    
+    <div class="form-group">
+        <label>State:</label>
+        <div>
+            <InputText class="form-control" @bind-Value="@Event.State" />
+            <ValidationMessage For="@(() => Event.State)" />
+        </div>
+    </div>    
+    <div class="form-group">
+        <label>ZipCode:</label>
+        <div>
+            <InputText class="form-control" @bind-Value="@Event.ZipCode" />
+            <ValidationMessage For="@(() => Event.ZipCode)" />
+        </div>
+    </div>    
+    <div class="form-group">
+        <label>StreetAdress:</label>
+        <div>
+            <InputText class="form-control" @bind-Value="@Event.StreetAdress" />
+            <ValidationMessage For="@(() => Event.StreetAdress)" />
+        </div>
+    </div>    
+    <div class="form-group">
+        <label>House:</label>
+        <div>
+            <InputText class="form-control" @bind-Value="@Event.House" />
+            <ValidationMessage For="@(() => Event.House)" />
+        </div>
+    </div>    
+    <div class="form-group">
+        <label>ApartmentNo:</label>
+        <div>
+            <InputNumber class="form-control" @bind-Value="@Event.ApartmentNo" />
+            <ValidationMessage For="@(() => Event.ApartmentNo)" />
+        </div>
+    </div>    
+    <div class="form-group">
+        <label>FullAddress:</label>
+        <div>
+            <InputText class="form-control" @bind-Value="@Event.FullAddress" />
+            <ValidationMessage For="@(() => Event.FullAddress)" />
+        </div>
+    </div>    
+    <div class="form-group">
+        <label>Latitude:</label>
+        <div>
+            <InputNumber class="form-control" @bind-Value="@Event.Latitude" />
+            <ValidationMessage For="@(() => Event.Latitude)" />
+        </div>
+    </div>   
+    <div class="form-group">
+        <label>Longitude:</label>
+        <div>
+            <InputNumber class="form-control" @bind-Value="@Event.Longitude" />
+            <ValidationMessage For="@(() => Event.Longitude)" />
+        </div>
+    </div>    
+    <button class="btn btn-primary" type="submit">Save Changes</button>
+</EditForm>
+
+@code {
+
+    [Parameter] public PublicEvent Event { get; set; }
+    [Parameter] public EventCallback OnValidSubmit { get; set; }
+
+    private async Task OnDataAnnotationsValidated()
+    {
+        await OnValidSubmit.InvokeAsync(null);
+    }
+}

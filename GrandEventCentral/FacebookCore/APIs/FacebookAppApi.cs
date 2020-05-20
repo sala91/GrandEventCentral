@@ -1,5 +1,4 @@
-﻿using System;
-using System.IO;
+﻿using System.IO;
 using System.Threading.Tasks;
 using FacebookCore.Collections;
 using Newtonsoft.Json;
@@ -15,7 +14,8 @@ namespace FacebookCore.APIs
     /// </summary>
     public class FacebookAppApi : ApiBaseClass
     {
-        private string _appId, _appAccessToken;
+        private readonly string _appId;
+        private string _appAccessToken;
 
         /// <summary>
         /// Facebook App API allow for making calls to API that retrieve/modify information for the general Facebook application.
@@ -44,7 +44,7 @@ namespace FacebookCore.APIs
                 request.AddParameter("client_id", FacebookClient.ClientId);
                 request.AddParameter("client_secret", FacebookClient.ClientSecret);
                 request.AddParameter("grant_type", "client_credentials");
-                IRestResponse<string> result = await FacebookClient.RestClient.ExecuteAsync(request);
+                var result = await FacebookClient.RestClient.ExecuteAsync(request);
 
                 var jsreader = new JsonTextReader(new StringReader(result.RawData.ToString()));
                 var json = (JObject)new JsonSerializer().Deserialize(jsreader);
@@ -69,7 +69,7 @@ namespace FacebookCore.APIs
                 return _appId;
             }
 
-            string accessToken = await GetAccessTokenAsync();
+            var accessToken = await GetAccessTokenAsync();
             return GetAppId(accessToken);
         }
 
@@ -87,10 +87,10 @@ namespace FacebookCore.APIs
 
             try
             {
-                string appId = accessToken.Split(new char[] { '|' })[0];
+                var appId = accessToken.Split(new char[] { '|' })[0];
                 return appId;
             }
-            catch 
+            catch
             {
                 return null;
             }
@@ -102,11 +102,11 @@ namespace FacebookCore.APIs
         /// <returns>Application test users collection</returns>
         public async Task<AppTestUsersCollection> GetTestUsersAsync()
         {
-            string accessToken = await GetAccessTokenAsync();
-            string appId = await GetAppIdAsync();
-            string query = $"/{appId}/accounts/test-users";
+            var accessToken = await GetAccessTokenAsync();
+            var appId = await GetAppIdAsync();
+            var query = $"/{appId}/accounts/test-users";
 
-            AppTestUsersCollection testUsers = new AppTestUsersCollection(FacebookClient, query, accessToken);
+            var testUsers = new AppTestUsersCollection(FacebookClient, query, accessToken);
             await testUsers.Load();
             return testUsers;
         }

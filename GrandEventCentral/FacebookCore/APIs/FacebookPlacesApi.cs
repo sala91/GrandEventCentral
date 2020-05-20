@@ -97,19 +97,19 @@ namespace FacebookCore.APIs
         {
             //https://graph.facebook.com/v3.2/search?type=place&center=40.7304,-73.9921&distance=1000&q=cafe&fields=name,checkins,picture&limit=3&access_token={access-token}'
 
-            string center = string.Empty;
+            var center = string.Empty;
             if (!string.IsNullOrWhiteSpace(lon) && !string.IsNullOrWhiteSpace(lat))
             {
                 center = "&center=" + lat + "," + lon;
             }
 
-            string distanceStr = string.Empty;
+            var distanceStr = string.Empty;
             if (distance > 0)
             {
                 distanceStr = "&distance=" + distance.ToString();
             }
 
-            string query = string.Empty;
+            var query = string.Empty;
             if (!string.IsNullOrWhiteSpace(name))
             {
                 query = "&q=" + name;
@@ -121,16 +121,16 @@ namespace FacebookCore.APIs
             }
             fields = "&fields=" + fields;
 
-            string limitStr = string.Empty;
+            var limitStr = string.Empty;
             if (limit > 0)
             {
                 limitStr = "&limit=" + limit.ToString();
             }
 
             //var response = FacebookClient.Get($"/search?type=place{center}{distance}{query}{fields}{limit}", _authToken);
-            string apiQuery = $"/search?type=place{center}{distance}{query}{fields}{limitStr}";
+            var apiQuery = $"/search?type=place{center}{distance}{query}{fields}{limitStr}";
 
-            PlacesCollection collection = new PlacesCollection(_fbClient, apiQuery, _authToken, null);
+            var collection = new PlacesCollection(_fbClient, apiQuery, _authToken, null);
             await collection.Load();
 
             return collection;

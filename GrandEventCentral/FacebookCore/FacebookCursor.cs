@@ -16,7 +16,7 @@
 
         public FacebookCursor()
         {
-            
+
         }
 
         public FacebookCursor(string before, string after)

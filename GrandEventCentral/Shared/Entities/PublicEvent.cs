@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace GrandEventCentral.Shared.Entities
 {
-    public class Event : Base
+    public class PublicEvent : Base
     {
         [Required]
         public string Title { get; set; }

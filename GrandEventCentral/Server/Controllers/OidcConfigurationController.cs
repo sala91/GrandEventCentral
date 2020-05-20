@@ -16,7 +16,7 @@ namespace GrandEventCentral.Server.Controllers
         }
 
         [HttpGet("_configuration/{clientId}")]
-        public IActionResult GetClientRequestParameters([FromRoute]string clientId)
+        public IActionResult GetClientRequestParameters([FromRoute] string clientId)
         {
             var parameters = ClientRequestParametersProvider.GetClientParameters(HttpContext, clientId);
             return Ok(parameters);

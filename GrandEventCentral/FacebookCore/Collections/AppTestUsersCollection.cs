@@ -1,5 +1,4 @@
-﻿using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using FacebookCore.Entities;
 using Newtonsoft.Json.Linq;
 
@@ -16,25 +15,25 @@ namespace FacebookCore.Collections
 
         public new async Task<AppTestUsersCollection> BeforeAsync()
         {
-            FacebookCollection<TestUser> collection = await base.BeforeAsync();
+            var collection = await base.BeforeAsync();
             return (AppTestUsersCollection)collection;
         }
 
         public new async Task<AppTestUsersCollection> AfterAsync()
         {
-            FacebookCollection<TestUser> collection = await base.AfterAsync();
+            var collection = await base.AfterAsync();
             return (AppTestUsersCollection)collection;
         }
-        
+
         private static TestUser TestUserMapper(JToken data)
         {
-            TestUser user = new TestUser()
+            var user = new TestUser()
             {
                 Id = data["id"].ToString(),
                 LoginUrl = data["login_url"].ToString(),
                 AccessToken = data["access_token"].ToString()
             };
-            
+
             return user;
         }
     }

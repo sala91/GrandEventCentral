@@ -12,5 +12,7 @@ and follow this bug in github https://github.com/dotnet/aspnetcore/issues/5458
 * Authors Twitter: https://twitter.com/stevensanderson
 * Test examples: https://github.com/SteveSandersonMS/BlazorUnitTestingPrototype/tree/master/SampleApp.Tests
 
+Migration should be done towards: https://bunit.egilhansen.com/
+
 # Other notes
 offline-list-generator.ps1 is atm a baby, therefore needs proper path setting for it to be of some use. 

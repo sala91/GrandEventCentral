@@ -29,7 +29,7 @@ namespace GrandEventCentral.Shared.Entities
             ErrorMessage = "Value for {0} must be between {1:dd MMM yyyy} and {2:dd MMM yyyy}")]
         public DateTime StartDate { get; set; }
 
-        [Required(ErrorMessage = "Choose the team and technology you want to work on")]
+        [Required(ErrorMessage = "Choose the team you want to work with")]
         public string PreferredTeam { get; set; }
 
         public string Biography { get; set; }

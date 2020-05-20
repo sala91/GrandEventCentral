@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using GrandEventCentral.Shared;
 using GrandEventCentral.Shared.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -29,7 +28,7 @@ namespace GrandEventCentral.Server.Controllers
         private static List<WeatherForecast> _forecasts { get; set; }
 
         [HttpGet]
-        public Task<List<WeatherForecast>> Get([FromQuery]DateTime startDate)
+        public Task<List<WeatherForecast>> Get([FromQuery] DateTime startDate)
         {
             if (_forecasts == null)
             {

@@ -27,7 +27,7 @@ namespace FacebookCore.APIs
         /// <returns>JObject with user information</returns>
         public async Task<JObject> RequestInformationAsync(string[] fields = null)
         {
-            string fieldsStr = string.Empty;
+            var fieldsStr = string.Empty;
             if (fields != null)
             {
                 fieldsStr = string.Join(",", fields);

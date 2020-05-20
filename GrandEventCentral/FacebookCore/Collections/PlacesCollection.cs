@@ -1,7 +1,7 @@
-﻿using FacebookCore.Entities;
-using Newtonsoft.Json.Linq;
-using System;
+﻿using System;
 using System.Threading.Tasks;
+using FacebookCore.Entities;
+using Newtonsoft.Json.Linq;
 
 namespace FacebookCore.Collections
 {
@@ -9,24 +9,24 @@ namespace FacebookCore.Collections
     {
         public PlacesCollection(FacebookClient client, string query, string token, FacebookCursor cursor = null) : base(client, query, token, PlaceMapper, cursor)
         {
-            
+
         }
 
         public new async Task<PlacesCollection> BeforeAsync()
         {
-            FacebookCollection<Place> collection = await base.BeforeAsync();
+            var collection = await base.BeforeAsync();
             return (PlacesCollection)collection;
         }
 
         public new async Task<PlacesCollection> AfterAsync()
         {
-            FacebookCollection<Place> collection = await base.AfterAsync();
+            var collection = await base.AfterAsync();
             return (PlacesCollection)collection;
         }
 
         private static Place PlaceMapper(JToken data)
         {
-            Place place = new Place
+            var place = new Place
             {
                 Id = data["id"]?.ToString(),
                 Name = data["name"]?.ToString()

@@ -1,9 +1,9 @@
-﻿using HtmlAgilityPack;
-using Microsoft.AspNetCore.Components.RenderTree;
-using Microsoft.AspNetCore.Components.Web;
-using System;
+﻿using System;
 using System.Diagnostics.CodeAnalysis;
 using System.Threading.Tasks;
+using HtmlAgilityPack;
+using Microsoft.AspNetCore.Components.RenderTree;
+using Microsoft.AspNetCore.Components.Web;
 
 namespace Microsoft.AspNetCore.Components.Testing
 {
@@ -59,7 +59,7 @@ namespace Microsoft.AspNetCore.Components.Testing
             var eventHandlerId = ulong.Parse(eventHandlerIdString);
 
             var renderer = ((TestHtmlDocument)element.OwnerDocument).Renderer;
-            return renderer.DispatchEventAsync(eventHandlerId, 
+            return renderer.DispatchEventAsync(eventHandlerId,
                 new EventFieldInfo(),
                 eventArgs);
         }

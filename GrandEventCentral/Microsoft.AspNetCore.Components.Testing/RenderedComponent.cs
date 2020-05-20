@@ -1,7 +1,7 @@
-﻿using Fizzler.Systems.HtmlAgilityPack;
-using HtmlAgilityPack;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
+using Fizzler.Systems.HtmlAgilityPack;
+using HtmlAgilityPack;
 
 namespace Microsoft.AspNetCore.Components.Testing
 {

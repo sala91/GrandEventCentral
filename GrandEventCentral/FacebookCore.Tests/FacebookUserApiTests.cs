@@ -1,8 +1,8 @@
-﻿using FluentAssertions;
+﻿using System.IO;
+using System.Threading.Tasks;
+using FluentAssertions;
 using Microsoft.Extensions.Configuration;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System.IO;
-using System.Threading.Tasks;
 
 namespace FacebookCore.Tests
 {
@@ -14,13 +14,13 @@ namespace FacebookCore.Tests
 
         public FacebookUserApiTests()
         {
-            string basePath = Directory.GetCurrentDirectory();
+            var basePath = Directory.GetCurrentDirectory();
 
             var builder = new ConfigurationBuilder()
                 .SetBasePath(basePath)
                 .AddJsonFile("appsettings.json", optional: false, reloadOnChange: false);
 
-            IConfigurationRoot configurationRoot = builder.Build();
+            var configurationRoot = builder.Build();
 
             var clientId = configurationRoot["client_id"];
             var clientSecret = configurationRoot["client_secret"];

@@ -1,8 +1,8 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using System;
+using System.Collections.Generic;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Logging.Abstractions;
-using System;
-using System.Collections.Generic;
 
 namespace Microsoft.AspNetCore.Components.Testing
 {
@@ -29,9 +29,11 @@ namespace Microsoft.AspNetCore.Components.Testing
         public IServiceProvider Services => _serviceProvider.Value;
 
         public void AddService<T>(T implementation)
-            => AddService<T, T>(implementation);
+        {
+            AddService<T, T>(implementation);
+        }
 
-        public void AddService<TContract, TImplementation>(TImplementation implementation) where TImplementation: TContract
+        public void AddService<TContract, TImplementation>(TImplementation implementation) where TImplementation : TContract
         {
             if (_renderer.IsValueCreated)
             {
@@ -53,7 +55,7 @@ namespace Microsoft.AspNetCore.Components.Testing
             }
         }
 
-        public RenderedComponent<TComponent> AddComponent<TComponent>() where TComponent: IComponent
+        public RenderedComponent<TComponent> AddComponent<TComponent>() where TComponent : IComponent
         {
             var result = new RenderedComponent<TComponent>(Renderer);
             result.SetParametersAndRender(ParameterView.Empty);

@@ -1,15 +1,15 @@
-﻿using Newtonsoft.Json.Linq;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Newtonsoft.Json.Linq;
 
 namespace FacebookCore.Collections
 {
     public class FacebookCollection<T> : List<T>
     {
-        private FacebookClient _fbClient;
-        private string _query, _token;
+        private readonly FacebookClient _fbClient;
+        private readonly string _query, _token;
 
         internal Func<JToken, T> Mapper { get; set; }
 
@@ -37,11 +37,11 @@ namespace FacebookCore.Collections
         {
             return await CreateNewCollectionAsync(FacebookCursor.Direction.After);
         }
-        
+
         private async Task<FacebookCollection<T>> CreateNewCollectionAsync(FacebookCursor.Direction direction)
         {
-            Type collectionType = GetType();
-            FacebookCollection<T> collection = (FacebookCollection<T>)Activator.CreateInstance(collectionType, _fbClient, _query, _token, Cursor);
+            var collectionType = GetType();
+            var collection = (FacebookCollection<T>)Activator.CreateInstance(collectionType, _fbClient, _query, _token, Cursor);
             await collection.LoadToCollectionAsync(Cursor, direction);
             return collection;
         }
@@ -60,13 +60,13 @@ namespace FacebookCore.Collections
 
                 foreach (var result in results)
                 {
-                    T mappedResult = Mapper(result);
+                    var mappedResult = Mapper(result);
                     Add(mappedResult);
                 }
 
                 var newCursor = response["paging"]["cursors"];
-                string before = newCursor["before"]?.ToString();
-                string after = newCursor["after"]?.ToString();
+                var before = newCursor["before"]?.ToString();
+                var after = newCursor["after"]?.ToString();
                 Cursor = new FacebookCursor(before, after);
 
                 return true;

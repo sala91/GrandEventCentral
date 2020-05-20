@@ -14,17 +14,18 @@ namespace GrandEventCentral.Server
         public static IHostBuilder CreateHostBuilder(string[] args)
         {
             return Host.CreateDefaultBuilder(args)
-.ConfigureAppConfiguration((hostingContext, config) =>
-{
-    config.AddJsonFile("appsettings.json",
-    optional: true,
-    reloadOnChange: true);
-})
-.ConfigureWebHostDefaults(webBuilder =>
-{
-    webBuilder.UseStartup<Startup>();
-    webBuilder.UseStaticWebAssets();
-});
+                .ConfigureAppConfiguration((hostingContext, config) =>
+                {
+                    config.AddJsonFile("appsettings.json",
+                    optional: true,
+                    reloadOnChange: true);
+                })
+                .ConfigureWebHostDefaults(webBuilder =>
+                {
+                    webBuilder.UseStartup<Startup>();
+                    webBuilder.UseStaticWebAssets();
+                }
+            );
         }
     }
 }

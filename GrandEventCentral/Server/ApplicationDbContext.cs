@@ -14,7 +14,7 @@ namespace GrandEventCentral.Server
 
         }
 
-        public DbSet<Event> Events { get; set; }
+        public DbSet<PublicEvent> PublicEvents { get; set; }
         public DbSet<Person> People { get; set; }
     }
 }

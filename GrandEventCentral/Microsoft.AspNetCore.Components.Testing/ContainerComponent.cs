@@ -1,8 +1,8 @@
-﻿using Microsoft.AspNetCore.Components.RenderTree;
-using System;
+﻿using System;
 using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Components.RenderTree;
 
 namespace Microsoft.AspNetCore.Components.Testing
 {
@@ -20,7 +20,7 @@ namespace Microsoft.AspNetCore.Components.Testing
     {
         private readonly TestRenderer _renderer;
         private RenderHandle _renderHandle;
-        private int _componentId;
+        private readonly int _componentId;
 
         public ContainerComponent(TestRenderer renderer)
         {

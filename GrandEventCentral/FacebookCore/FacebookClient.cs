@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Specialized;
-using System.IO;
+﻿using System.IO;
 using System.Net;
 using System.Threading.Tasks;
 using FacebookCore.APIs;
@@ -18,7 +16,7 @@ namespace FacebookCore
     public class FacebookClient
     {
         private FacebookAppApi _app;
-        
+
         internal string ClientId { get; private set; }
 
         internal string ClientSecret { get; private set; }
@@ -31,7 +29,7 @@ namespace FacebookCore
         /// Application API
         /// </summary>
         public FacebookAppApi App => _app ?? (_app = new FacebookAppApi(this));
-        
+
         public FacebookClient(string clientId, string clientSecret)
         {
             ClientId = clientId;
@@ -88,7 +86,7 @@ namespace FacebookCore
             {
                 path = "/" + path;
             }
-            
+
             return path;
         }
 
@@ -105,19 +103,19 @@ namespace FacebookCore
 
         private string AddCursorToPathIfNeeded(string path, FacebookCursor cursor, Direction cursorDirection)
         {
-            string cursorPart = string.Empty;
+            var cursorPart = string.Empty;
 
             if (cursor != null && cursorDirection != Direction.None)
             {
-                    if (!string.IsNullOrWhiteSpace(cursor.After) &&
-                       (cursorDirection == Direction.After || cursorDirection == Direction.Next))
-                    {
-                        cursorPart = (path.Contains("?") ? "&" : "?") + "after=" + cursor.After;
-                    }
-                    else if (!string.IsNullOrWhiteSpace(cursor.Before))
-                    {
-                        cursorPart = (path.Contains("?") ? "&" : "?") + "before=" + cursor.Before;
-                    }
+                if (!string.IsNullOrWhiteSpace(cursor.After) &&
+                   (cursorDirection == Direction.After || cursorDirection == Direction.Next))
+                {
+                    cursorPart = (path.Contains("?") ? "&" : "?") + "after=" + cursor.After;
+                }
+                else if (!string.IsNullOrWhiteSpace(cursor.Before))
+                {
+                    cursorPart = (path.Contains("?") ? "&" : "?") + "before=" + cursor.Before;
+                }
             }
 
             return path + cursorPart;

@@ -7,8 +7,7 @@ using GrandEventCentral.Shared.Entities;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-
-// For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+using Microsoft.AspNetCore.Identity;
 
 namespace GrandEventCentral.Server.Controllers
 {
@@ -17,13 +16,17 @@ namespace GrandEventCentral.Server.Controllers
     [Authorize]
     public class EventsController : ControllerBase
     {
-        private readonly IMapper mapper;
-        private readonly ApplicationDbContext context;
+        private readonly IMapper _mapper;
+        private readonly ApplicationDbContext _context;
+        private readonly UserManager<IdentityUser> _userManager;
 
-        public EventsController(ApplicationDbContext context, IMapper mapper)
+        public EventsController(ApplicationDbContext context, 
+            IMapper mapper,
+            UserManager<IdentityUser> userManager)
         {
-            this.context = context;
-            this.mapper = mapper;
+            _context = context;
+            _mapper = mapper;
+            _userManager = userManager;
         }
 
         // GET: api/<EventsController>
@@ -31,7 +34,7 @@ namespace GrandEventCentral.Server.Controllers
         [AllowAnonymous]
         public async Task<List<PublicEvent>> GetAsync()
         {
-            var allPublicEvents = await context.PublicEvents.ToListAsync();
+            var allPublicEvents = await _context.PublicEvents.ToListAsync();
             return allPublicEvents;
         }
 
@@ -40,7 +43,7 @@ namespace GrandEventCentral.Server.Controllers
         [AllowAnonymous]
         public async Task<PublicEvent> Get(Guid id)
         {
-            var onePublicEvent = await context.PublicEvents.Where(x => x.Id == id).FirstOrDefaultAsync();
+            var onePublicEvent = await _context.PublicEvents.Where(x => x.Id == id).FirstOrDefaultAsync();
             return onePublicEvent;
         }
 
@@ -48,11 +51,14 @@ namespace GrandEventCentral.Server.Controllers
         [HttpPost]
         public async Task<Guid> PostAsync([FromBody] PublicEvent savableEvent)
         {
-            savableEvent.CreatedAt = DateTime.UtcNow;
-            savableEvent.Creator = (Microsoft.AspNetCore.Identity.IdentityUser)User.Identity;
 
-            context.PublicEvents.Add(savableEvent);
-            await context.SaveChangesAsync();
+            var user = await _userManager.GetUserAsync(HttpContext.User);
+
+            savableEvent.CreatedAt = DateTime.UtcNow;
+            savableEvent.Creator = user;
+
+            _context.PublicEvents.Add(savableEvent);
+            await _context.SaveChangesAsync();
             return savableEvent.Id;
         }
 
@@ -60,14 +66,14 @@ namespace GrandEventCentral.Server.Controllers
         [HttpPut("{id}")]
         public async Task<ActionResult> Put(Guid id, [FromBody] PublicEvent incomingChange)
         {
-            var existingPublicEvent = await context.PublicEvents.FirstOrDefaultAsync(x => x.Id == id);
+            var existingPublicEvent = await _context.PublicEvents.FirstOrDefaultAsync(x => x.Id == id);
             if (existingPublicEvent == null) { return NotFound(); }
 
-            context.Entry(existingPublicEvent).State = EntityState.Detached;
-            existingPublicEvent = mapper.Map(incomingChange, existingPublicEvent);
+            _context.Entry(existingPublicEvent).State = EntityState.Detached;
+            existingPublicEvent = _mapper.Map(incomingChange, existingPublicEvent);
             
-            context.PublicEvents.Update(existingPublicEvent);
-            await context.SaveChangesAsync();
+            _context.PublicEvents.Update(existingPublicEvent);
+            await _context.SaveChangesAsync();
 
             return NoContent();
         }
@@ -76,9 +82,9 @@ namespace GrandEventCentral.Server.Controllers
         [HttpDelete("{id}")]
         public async Task DeleteAsync(Guid id)
         {
-            var deletablePublicEvent = await context.PublicEvents.FindAsync(id);
-            context.Remove(deletablePublicEvent);
-            await context.SaveChangesAsync();
+            var deletablePublicEvent = await _context.PublicEvents.FindAsync(id);
+            _context.Remove(deletablePublicEvent);
+            await _context.SaveChangesAsync();
         }
     }
 }

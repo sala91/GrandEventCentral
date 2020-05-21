@@ -7,6 +7,9 @@ using GrandEventCentral.Client.Repository;
 using GrandEventCentral.Services;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 using Microsoft.Extensions.DependencyInjection;
+using Blazorise;
+using Blazorise.Bootstrap;
+using Blazorise.Icons.FontAwesome;
 
 namespace GrandEventCentral.Client
 {
@@ -19,7 +22,13 @@ namespace GrandEventCentral.Client
             builder.Services.AddTransient(sp => new HttpClient { BaseAddress = new Uri(builder.HostEnvironment.BaseAddress) });
             ConfigureServices(builder.Services);
 
-            await builder.Build().RunAsync();
+            var host = builder.Build();
+
+            host.Services
+              .UseBootstrapProviders()
+              .UseFontAwesomeIcons();
+
+            await host.RunAsync();
         }
 
         private static void ConfigureServices(IServiceCollection services)
@@ -37,6 +46,13 @@ namespace GrandEventCentral.Client
             services.AddFileReaderService(options => options.InitializeOnFirstCall = true);
 
             services.AddApiAuthorization();
+
+            services.AddBlazorise(options =>
+            {
+                options.ChangeTextOnKeyPress = true;
+            })
+            .AddBootstrapProviders()
+            .AddFontAwesomeIcons();
         }
     }
 }

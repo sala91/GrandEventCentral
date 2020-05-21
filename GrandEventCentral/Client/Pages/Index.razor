@@ -39,13 +39,14 @@
         </table>
     }
 </div>
-<button onclick="CreateEventNew">Add your own Event!</button>
+<button class="btn btn-primary" @onclick="CreateEventNew">Add your own Event!</button>
 
-@code { private List<PublicEvent> myEvents;
+@code { 
+    private List<PublicEvent> myEvents;
 
-    private void CreateEventNew()
+    private void CreateEventNew(MouseEventArgs e)
     {
-        Navigation.NavigateTo("/event/create");
+        Navigation.NavigateTo("/events/create");
     }
 
     protected async override Task OnAfterRenderAsync(bool firstRender)

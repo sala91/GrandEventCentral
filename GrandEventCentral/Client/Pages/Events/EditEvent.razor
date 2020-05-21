@@ -1,25 +1,40 @@
-﻿@page "/events/edit"
+﻿@page "/events/edit/{EventId:guid}"
 @inject HttpClient Http
+@inject IAccessTokenProvider AuthenticationService
+@inject NavigationManager Navigation
+
 @attribute [Authorize]
 @using Microsoft.AspNetCore.Authorization
 @using Microsoft.AspNetCore.Components.WebAssembly.Authentication
-<h3>Edit Event</h3>
+<h3>Edit existing event</h3>
 
 @if (myPublicEvent != null)
 {
-<EventFormPage Event="myPublicEvent" OnValidSubmit="SaveEvent"></EventFormPage>}
+    <EventFormPage Event="myPublicEvent" OnValidSubmit="SaveEvent"></EventFormPage>
+}
 
 
 @code { 
+    [Parameter] public Guid EventId { get; set; }
     private PublicEvent myPublicEvent = new PublicEvent();
+
+    protected async override Task OnInitializedAsync()
+    {
+        myPublicEvent = await Http.GetFromJsonAsync<PublicEvent>($"Api/Events/{EventId}");
+    }
 
     private async Task SaveEvent()
     {
+        var httpClient = new HttpClient();
+        httpClient.BaseAddress = new Uri(Navigation.BaseUri);
         var body = Newtonsoft.Json.JsonConvert.SerializeObject(myPublicEvent);
 
         try
         {
-            var eventId = await Http.PostAsync("Api/Events", new StringContent(body, System.Text.Encoding.UTF8, "application/json"));
+            var tokenResult = await AuthenticationService.RequestAccessToken();
+            tokenResult.TryGetToken(out var token);
+            httpClient.DefaultRequestHeaders.Add("Authorization", $"Bearer {token.Value}");
+            var eventId = await httpClient.PutAsync($"Api/Events/{EventId}", new StringContent(body, System.Text.Encoding.UTF8, "application/json"));
         }
         catch (AccessTokenNotAvailableException exception)
         {

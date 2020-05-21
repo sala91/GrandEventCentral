@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AutoMapper;
 using GrandEventCentral.Shared.Entities;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -16,11 +17,13 @@ namespace GrandEventCentral.Server.Controllers
     [Authorize]
     public class EventsController : ControllerBase
     {
+        private readonly IMapper mapper;
         private readonly ApplicationDbContext context;
 
-        public EventsController(ApplicationDbContext context)
+        public EventsController(ApplicationDbContext context, IMapper mapper)
         {
             this.context = context;
+            this.mapper = mapper;
         }
 
         // GET: api/<EventsController>
@@ -33,7 +36,8 @@ namespace GrandEventCentral.Server.Controllers
         }
 
         // GET api/<EventsController>/5
-        [HttpGet("{id}")]
+        [HttpGet("{id:guid}")]
+        [AllowAnonymous]
         public async Task<PublicEvent> Get(Guid id)
         {
             var onePublicEvent = await context.PublicEvents.Where(x => x.Id == id).FirstOrDefaultAsync();
@@ -54,12 +58,15 @@ namespace GrandEventCentral.Server.Controllers
 
         // PUT api/<EventsController>/5
         [HttpPut("{id}")]
-        public async Task<ActionResult> Put(Guid id, [FromBody] PublicEvent savableEvent)
+        public async Task<ActionResult> Put(Guid id, [FromBody] PublicEvent incomingChange)
         {
-            var onePublicEvent = await context.PublicEvents.Where(x => x.Id == id).FirstOrDefaultAsync();
-            if (onePublicEvent == null) { return NotFound(); }
+            var existingPublicEvent = await context.PublicEvents.FirstOrDefaultAsync(x => x.Id == id);
+            if (existingPublicEvent == null) { return NotFound(); }
 
-            context.Entry(savableEvent).State = EntityState.Detached;
+            context.Entry(existingPublicEvent).State = EntityState.Detached;
+            existingPublicEvent = mapper.Map(incomingChange, existingPublicEvent);
+            
+            context.PublicEvents.Update(existingPublicEvent);
             await context.SaveChangesAsync();
 
             return NoContent();

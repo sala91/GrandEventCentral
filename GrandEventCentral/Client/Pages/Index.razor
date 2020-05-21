@@ -1,50 +1,59 @@
 ﻿@page "/"
 @inject HttpClient Http
+@inject NavigationManager Navigation
 
-    <LoginLinks></LoginLinks>
-    <div>
-        <h3>Upcoming events</h3>
-        @if (myEvents == null)
-        {
-            <p><em>Loading...</em></p>
-        }
-        else
-        {
-            <table class="table">
-                <thead>
+<LoginLinks></LoginLinks>
+<div>
+    <h3>Upcoming events</h3>
+    @if (myEvents == null)
+    {
+        <p><em>Loading...</em></p>
+    }
+    else
+    {
+        <table class="table">
+            <thead>
+                <tr>
+                    <th></th>
+                    <th>Content</th>
+                    <th>Time</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var myEvent in myEvents)
+                {
                     <tr>
-                        <th></th>
-                        <th>Content</th>
-                        <th>Time</th>
+                        <td>
+                            <a href="/Events/Edit/@myEvent.Id">Edit</a>
+                            Details | Delete | Join
+                        </td>
+                        <td>
+                            Event: <a href="@myEvent.EventUrlFb">@myEvent.Title</a>  by @myEvent.HostName <br />
+                            @myEvent.Description <br />
+                            Location: @myEvent.FullAddress
+                        </td>
+                        <td>@myEvent.Date</td>
                     </tr>
-                </thead>
-                <tbody>
-                    @foreach (var myEvent in myEvents)
-                    {
-                        <tr>
-                            <td>Edit | Delete | Join</td>
-                            <td>
-                                Event: <a href="@myEvent.EventUrlFb">@myEvent.Title</a>  by @myEvent.HostName <br />
-                                @myEvent.Description <br />
-                                Location: @myEvent.FullAddress
-                            </td>
-                            <td>@myEvent.Date</td>
-                        </tr>
-                    }
-                </tbody>
-            </table>
-        }
-    </div>
-    <button>Add your own Event!</button>
+                }
+            </tbody>
+        </table>
+    }
+</div>
+<button onclick="CreateEventNew">Add your own Event!</button>
 
-    @code { private List<PublicEvent> myEvents;
+@code { private List<PublicEvent> myEvents;
 
-        protected async override Task OnAfterRenderAsync(bool firstRender)
+    private void CreateEventNew()
+    {
+        Navigation.NavigateTo("/event/create");
+    }
+
+    protected async override Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
         {
-            if (firstRender)
-            {
-                myEvents = await Http.GetFromJsonAsync<List<PublicEvent>>("Api/Events");
-                StateHasChanged();
-            }
+            myEvents = await Http.GetFromJsonAsync<List<PublicEvent>>("Api/Events");
+            StateHasChanged();
         }
     }
+}

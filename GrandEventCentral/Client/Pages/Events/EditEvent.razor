@@ -1,11 +1,13 @@
 ﻿@page "/events/edit"
 @inject HttpClient Http
+@attribute [Authorize]
+@using Microsoft.AspNetCore.Authorization
+@using Microsoft.AspNetCore.Components.WebAssembly.Authentication
 <h3>Edit Event</h3>
 
 @if (myPublicEvent != null)
 {
-    <EventForm Event="myPublicEvent" OnValidSubmit="SaveEvent"></EventForm>
-}
+<EventFormPage Event="myPublicEvent" OnValidSubmit="SaveEvent"></EventFormPage>}
 
 
 @code { 
@@ -14,6 +16,14 @@
     private async Task SaveEvent()
     {
         var body = Newtonsoft.Json.JsonConvert.SerializeObject(myPublicEvent);
-        var eventId = await Http.PostAsync("Api/Events", new StringContent(body, System.Text.Encoding.UTF8, "application/json"));
-    } 
+
+        try
+        {
+            var eventId = await Http.PostAsync("Api/Events", new StringContent(body, System.Text.Encoding.UTF8, "application/json"));
+        }
+        catch (AccessTokenNotAvailableException exception)
+        {
+            exception.Redirect();
+        }
+    }
 }

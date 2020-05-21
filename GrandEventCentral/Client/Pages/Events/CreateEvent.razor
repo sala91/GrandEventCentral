@@ -1,15 +1,34 @@
 ﻿@page "/events/create"
 @inject HttpClient Http
+@inject IAccessTokenProvider AuthenticationService
+@inject NavigationManager Navigation
+
+@attribute [Authorize]
+@using Microsoft.AspNetCore.Authorization
+@using Microsoft.AspNetCore.Components.WebAssembly.Authentication
 <h3>Create Event</h3>
 
-<EventForm Event="myPublicEvent" OnValidSubmit="SaveEvent"></EventForm>
+<EventFormPage Event="myPublicEvent" OnValidSubmit="SaveEvent" />
 
 @code { 
     private PublicEvent myPublicEvent = new PublicEvent();
 
     private async Task SaveEvent()
     {
+        var httpClient = new HttpClient();
+        httpClient.BaseAddress = new Uri(Navigation.BaseUri);
         var body = Newtonsoft.Json.JsonConvert.SerializeObject(myPublicEvent);
-        var eventId = await Http.PostAsync("Api/Events", new StringContent(body, System.Text.Encoding.UTF8, "application/json"));
-    } 
+
+        try
+        {
+            var tokenResult = await AuthenticationService.RequestAccessToken();
+            tokenResult.TryGetToken(out var token);
+            httpClient.DefaultRequestHeaders.Add("Authorization", $"Bearer {token.Value}");
+            var eventId = await httpClient.PostAsync("Api/Events", new StringContent(body, System.Text.Encoding.UTF8, "application/json"));
+        }
+        catch (AccessTokenNotAvailableException exception)
+        {
+            exception.Redirect();
+        }
+    }
 }

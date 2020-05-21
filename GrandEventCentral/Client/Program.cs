@@ -37,6 +37,7 @@ namespace GrandEventCentral.Client
             services.AddFileReaderService(options => options.InitializeOnFirstCall = true);
 
             services.AddApiAuthorization();
+            services.AddAuthorizationCore();
         }
     }
 }

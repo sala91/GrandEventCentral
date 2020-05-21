@@ -1,74 +1,50 @@
 ﻿@page "/"
 @inject HttpClient Http
 
-<div>
-    <h3>Upcoming events</h3>
-    @if (myEvents == null)
-    {
-        <p><em>Loading...</em></p>
-    }
-    else
-    {
-        <table class="table">
-            <thead>
-                <tr>
-                    <th></th>
-                    <th>Title</th>
-                    <th>Description</th>
-                    <th>HostName</th>
-                    <th>EventUrlFb</th>
-                    <th>EventUrlShort</th>
-                    <th>Date</th>
-                    <th>CreatedAt</th>
-                    <th>Country</th>
-                    <th>City</th>
-                    <th>State</th>
-                    <th>ZipCode</th>
-                    <th>StreetAdress</th>
-                    <th>House</th>
-                    <th>ApartmentNo</th>
-                    <th>FullAddress</th>
-                    <th>Latitude</th>
-                    <th>Longitude</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach (var myEvent in myEvents){
-                <tr>
-                    <td>Edit | Delete | Join</td>
-                    <td>@myEvent.Title</td>
-                    <td>@myEvent.Description</td>
-                    <td>@myEvent.HostName</td>
-                    <td>@myEvent.EventUrlFb</td>
-                    <td>@myEvent.EventUrlShort</td>
-                    <td>@myEvent.Date</td>
-                    <td>@myEvent.CreatedAt</td>
-                    <td>@myEvent.Country</td>
-                    <td>@myEvent.City</td>
-                    <td>@myEvent.State</td>
-                    <td>@myEvent.ZipCode</td>
-                    <td>@myEvent.StreetAdress</td>
-                    <td>@myEvent.House</td>
-                    <td>@myEvent.ApartmentNo</td>
-                    <td>@myEvent.FullAddress</td>
-                    <td>@myEvent.Latitude</td>
-                    <td>@myEvent.Longitude</td>
-                </tr>
-            }
-            </tbody>
-        </table>
-    }
-</div>
-Add your own Event!
-<LoginLinks></LoginLinks>
-@code { private List<PublicEvent> myEvents;
-
-    protected async override Task OnAfterRenderAsync(bool firstRender)
-    {
-        if (firstRender)
+    <LoginLinks></LoginLinks>
+    <div>
+        <h3>Upcoming events</h3>
+        @if (myEvents == null)
         {
-            myEvents = await Http.GetFromJsonAsync<List<PublicEvent>>("Api/Events");
-            StateHasChanged();
+            <p><em>Loading...</em></p>
+        }
+        else
+        {
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th></th>
+                        <th>Content</th>
+                        <th>Time</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var myEvent in myEvents)
+                    {
+                        <tr>
+                            <td>Edit | Delete | Join</td>
+                            <td>
+                                Event: <a href="@myEvent.EventUrlFb">@myEvent.Title</a>  by @myEvent.HostName <br />
+                                @myEvent.Description <br />
+                                Location: @myEvent.FullAddress
+                            </td>
+                            <td>@myEvent.Date</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        }
+    </div>
+    <button>Add your own Event!</button>
+
+    @code { private List<PublicEvent> myEvents;
+
+        protected async override Task OnAfterRenderAsync(bool firstRender)
+        {
+            if (firstRender)
+            {
+                myEvents = await Http.GetFromJsonAsync<List<PublicEvent>>("Api/Events");
+                StateHasChanged();
+            }
         }
     }
-}

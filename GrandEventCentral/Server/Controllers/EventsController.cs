@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using GrandEventCentral.Shared.Entities;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -12,6 +13,7 @@ namespace GrandEventCentral.Server.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class EventsController : ControllerBase
     {
         private readonly ApplicationDbContext context;
@@ -23,6 +25,7 @@ namespace GrandEventCentral.Server.Controllers
 
         // GET: api/<EventsController>
         [HttpGet]
+        [AllowAnonymous]
         public async Task<List<PublicEvent>> GetAsync()
         {
             var allPublicEvents = await context.PublicEvents.ToListAsync();
@@ -41,6 +44,9 @@ namespace GrandEventCentral.Server.Controllers
         [HttpPost]
         public async Task<Guid> PostAsync([FromBody] PublicEvent savableEvent)
         {
+            savableEvent.CreatedAt = DateTime.UtcNow;
+            savableEvent.Creator = (Microsoft.AspNetCore.Identity.IdentityUser)User.Identity;
+
             context.PublicEvents.Add(savableEvent);
             await context.SaveChangesAsync();
             return savableEvent.Id;

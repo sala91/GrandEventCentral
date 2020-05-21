@@ -7,5 +7,6 @@ namespace GrandEventCentral.Shared.Entities
     {
         public Guid Id { get; set; }
         public virtual IdentityUser Creator { get; set; }
+        public DateTime CreatedAt { get; set; }
     }
 }

@@ -26,3 +26,6 @@ Migration should be done towards: https://bunit.egilhansen.com/
 
 # Other notes
 For Facebook event integration is available only to Facebook Marketing Partners. One can register on this page for this: https://developers.facebook.com/products/official-events-api/
+
+# Lessons learned
+* Telerik components don't play well together with Blazorise components, probably due to namespace issues.

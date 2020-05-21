@@ -29,9 +29,10 @@
                 {
                     <tr>
                         <td>
-                            <a href="/Events/Edit/@myEvent.Id">Edit</a>
-                            Details | 
-                            <a href="#" @onclick="@(() => DeleteEvent(myEvent))">Delete</a> | Join
+                            <a href="/Events/Edit/@myEvent.Id">Edit</a> | 
+                            <a href="/Events/Details/@myEvent.Id">Details</a> |
+                            <a href="#" @onclick="@(() => DeleteEvent(myEvent))">Delete</a> | 
+                            Join
                         </td>
                         <td>
                             Event: <a href="@myEvent.EventUrlFb">@myEvent.Title</a>  by @myEvent.HostName <br />

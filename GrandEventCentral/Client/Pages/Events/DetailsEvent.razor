@@ -1,0 +1,25 @@
+﻿@page "/events/details/{EventId:guid}"
+@inject HttpClient Http
+@inject IAccessTokenProvider AuthenticationService
+@inject NavigationManager Navigation
+
+@attribute [Authorize]
+@using Microsoft.AspNetCore.Authorization
+@using Microsoft.AspNetCore.Components.WebAssembly.Authentication
+    <h3>One specific Event</h3>
+
+@if (myPublicEvent != null)
+{
+    <EventFormPage Event="myPublicEvent" ReadOnly="true"></EventFormPage>
+}
+
+
+@code { 
+    [Parameter] public Guid EventId { get; set; }
+    private PublicEvent myPublicEvent = new PublicEvent();
+
+    protected async override Task OnInitializedAsync()
+    {
+        myPublicEvent = await Http.GetFromJsonAsync<PublicEvent>($"Api/Events/{EventId}");
+    }
+}

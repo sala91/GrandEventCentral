@@ -3,65 +3,73 @@
     <div class="form-group">
         <label>Title:</label>
         <div>
-            <InputText class="form-control" @bind-Value="@Event.Title" />
+            <InputText readonly=@ReadOnly class="form-control" @bind-Value="@Event.Title" />
             <ValidationMessage For="@(() => Event.Title)" />
         </div>
     </div>
     <div class="form-group">
         <label>Description:</label>
         <div>
-            <InputText class="form-control" @bind-Value="@Event.Description" />
+            <InputText readonly=@ReadOnly class="form-control" @bind-Value="@Event.Description" />
             <ValidationMessage For="@(() => Event.Description)" />
         </div>
-    </div>    
+    </div>
     <div class="form-group">
         <label>HostName:</label>
         <div>
-            <InputText class="form-control" @bind-Value="@Event.HostName" />
+            <InputText readonly=@ReadOnly class="form-control" @bind-Value="@Event.HostName" />
             <ValidationMessage For="@(() => Event.HostName)" />
         </div>
-    </div>    
+    </div>
     <div class="form-group">
         <label>EventUrlFb:</label>
         <div>
-            <InputText class="form-control" @bind-Value="@Event.EventUrlFb" />
+            <InputText readonly=@ReadOnly class="form-control" @bind-Value="@Event.EventUrlFb" />
             <ValidationMessage For="@(() => Event.EventUrlFb)" />
         </div>
-    </div>    
+    </div>
     <div class="form-group">
         <label>Date:</label>
         <div>
-            <InputDate class="form-control" @bind-Value="@Event.Date" />
+            <InputDate readonly=@ReadOnly class="form-control" @bind-Value="@Event.Date" />
             <ValidationMessage For="@(() => Event.Date)" />
         </div>
-    </div>     
+    </div>
     <div class="form-group">
         <label>FullAddress:</label>
         <div>
-            <InputText class="form-control" @bind-Value="@Event.FullAddress" />
+            <InputText readonly=@ReadOnly class="form-control" @bind-Value="@Event.FullAddress" />
             <ValidationMessage For="@(() => Event.FullAddress)" />
         </div>
-    </div>    
+    </div>
     <div class="form-group">
         <label>Latitude:</label>
         <div>
-            <InputNumber class="form-control" @bind-Value="@Event.Latitude" />
+            <InputNumber readonly=@ReadOnly class="form-control" @bind-Value="@Event.Latitude" />
             <ValidationMessage For="@(() => Event.Latitude)" />
         </div>
-    </div>   
+    </div>
     <div class="form-group">
         <label>Longitude:</label>
         <div>
-            <InputNumber class="form-control" @bind-Value="@Event.Longitude" />
+            <InputNumber readonly=@ReadOnly class="form-control" @bind-Value="@Event.Longitude" />
             <ValidationMessage For="@(() => Event.Longitude)" />
         </div>
-    </div>    
-    <button class="btn btn-primary" type="submit">Save Changes</button>
+    </div>
+    @if (ReadOnly)
+    {
+        // Back button here
+    }
+    else
+    {
+        <button class="btn btn-primary" type="submit">Save Changes</button>
+    }
 </EditForm>
 
 @code {
 
     [Parameter] public PublicEvent Event { get; set; }
+    [Parameter] public bool ReadOnly { get; set; }
     [Parameter] public EventCallback OnValidSubmit { get; set; }
 
     private async Task OnDataAnnotationsValidated()

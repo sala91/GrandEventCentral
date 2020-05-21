@@ -8,7 +8,7 @@
 @using Microsoft.AspNetCore.Components.WebAssembly.Authentication
 <h3>Create new event</h3>
 
-<EventFormPage Event="myPublicEvent" OnValidSubmit="SaveEvent" />
+<EventFormPage Event="myPublicEvent" ReadOnly="false" OnValidSubmit="SaveEvent" />
 
 @code { 
     private PublicEvent myPublicEvent = new PublicEvent();

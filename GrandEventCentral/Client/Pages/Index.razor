@@ -1,6 +1,11 @@
 ﻿@page "/"
+@inject IJSRuntime js
 @inject HttpClient Http
 @inject NavigationManager Navigation
+@inject IAccessTokenProvider AuthenticationService
+@inject NavigationManager Navigation
+@using Microsoft.AspNetCore.Authorization
+@using Microsoft.AspNetCore.Components.WebAssembly.Authentication
 
 <LoginLinks></LoginLinks>
 <div>
@@ -25,7 +30,8 @@
                     <tr>
                         <td>
                             <a href="/Events/Edit/@myEvent.Id">Edit</a>
-                            Details | Delete | Join
+                            Details | 
+                            <a href="#" @onclick="@(() => DeleteEvent(myEvent))">Delete</a> | Join
                         </td>
                         <td>
                             Event: <a href="@myEvent.EventUrlFb">@myEvent.Title</a>  by @myEvent.HostName <br />
@@ -41,12 +47,35 @@
 </div>
 <button class="btn btn-primary" @onclick="CreateEventNew">Add your own Event!</button>
 
-@code { 
+@code {
     private List<PublicEvent> myEvents;
 
     private void CreateEventNew(MouseEventArgs e)
     {
         Navigation.NavigateTo("/events/create");
+    }
+
+    private async Task DeleteEvent(PublicEvent myPublicEvent)
+    {
+        var httpClient = new HttpClient();
+        httpClient.BaseAddress = new Uri(Navigation.BaseUri);
+        var body = Newtonsoft.Json.JsonConvert.SerializeObject(myPublicEvent);
+        var confirmed = await js.Confirm($"Are you sure you want to delete {myPublicEvent.Title}?");
+
+        if (confirmed)
+        {
+            try
+            {
+                var tokenResult = await AuthenticationService.RequestAccessToken();
+                tokenResult.TryGetToken(out var token);
+                httpClient.DefaultRequestHeaders.Add("Authorization", $"Bearer {token.Value}");
+                var eventId = await httpClient.DeleteAsync($"Api/Events/{myPublicEvent.Id}");
+            }
+            catch (AccessTokenNotAvailableException exception)
+            {
+                exception.Redirect();
+            }
+        }
     }
 
     protected async override Task OnAfterRenderAsync(bool firstRender)

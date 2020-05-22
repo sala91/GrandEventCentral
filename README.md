@@ -9,11 +9,11 @@ There is offline-list-generator.ps1 is atm a baby, therefore needs proper path s
 VS2019, .NET Core 3.1 or latest package, SQL Server, Azure Storage Emulator
 
 # Featureset
-* Create Events
-    * Get Locations from Facebook API
-* Attend to event on site
-* Post to Facebook about event
-* Using Azure Function to do sth
+* Create Events, delete events, see event details, edit events (Done)
+    * Get Locations from Facebook API (API project done, tests done, not integrated to client)
+    * Post events to Facebook (requiers partnership, not yet done)
+* Attend to event on site 
+* Using Azure Function to measure people emotions on picture
 
 # Testing
 Testing is highly experimental here, read more from  https://blog.stevensanderson.com/2019/08/29/blazor-unit-testing-prototype/
@@ -29,3 +29,51 @@ For Facebook event integration is available only to Facebook Marketing Partners.
 
 # Lessons learned
 * Telerik components don't play well together with Blazorise components, probably due to namespace issues.
+* The documentation for Identiy server can be a little bit off. Had to figure out on my own how to auhtenticate over web request
+* Facebook Events api requers approval
+* Uber api requiers approval
+* Twitter api requers approval
+* Trafi / Google Transit api no longer available, workaround is to use Google Maps api for directions
+
+
+# Config files
+You need appsettings.json file in FacebookCore.Test with following config
+{
+  "client_id": "<your-app-id-here>",
+  "client_secret": "<your-secret-here>",
+  "access_token": "<your-access-token-here>"
+}
+
+For cognitive services, you need to add local-settings.json
+{
+    "IsEncrypted": false,
+    "Values": {
+        "AzureWebJobsStorage": "UseDevelopmentStorage=true",
+        "AzureWebJobsDashboard": "UseDevelopmentStorage=true",
+        "CognitiveServicesUrlBase": "endpointurl",
+        "CognitiveServicesKey": "endpointsecretkey",
+        "FUNCTIONS_V2_COMPATIBILITY_MODE": true,
+        "AllowSynchronousIO": true
+    }
+}
+
+And you also need in GrandEventCentral.Server appsettings.json with following contents
+{
+    "ConnectionStrings": {
+        "DefaultConnection": "Server=[yoursevernamehere];Database=GrandEventCentral;Trusted_Connection=True;MultipleActiveResultSets=true"
+    },
+    "IdentityServer": {
+        "Clients": {
+            "GrandEventCentral.Client": {
+                "Profile": "IdentityServerSPA"
+            }
+        },
+        "Key": {
+            "Type": "Development"
+        }
+    },
+    "AllowedHosts": "*"
+}
+
+
+NB! This is settings for development only, you should not use those settings in production.

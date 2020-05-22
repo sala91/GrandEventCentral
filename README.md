@@ -39,7 +39,7 @@ For Facebook event integration is available only to Facebook Marketing Partners.
 # Lessons learned
 * Telerik components don't play well together with Blazorise components, probably due to namespace issues.
 * The documentation for Identiy server can be a little bit off. Had to figure out on my own how to auhtenticate over web request
-* Facebook Events api requers approval
+* Facebook Events api requers approval, most API commands requiere approval from user, that is not yet implemented.
 * Uber api requiers approval
 * Twitter api requers approval
 * Trafi / Google Transit api no longer available, workaround is to use Google Maps api for directions
